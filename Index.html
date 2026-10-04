@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoTka</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .accordion-content { transition: max-height 0.3s ease-out, opacity 0.3s ease-out; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col md:flex-row">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out flex flex-col justify-between shadow-xl">
+        <div>
+            <!-- LOGO HEADER -->
+            <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="bg-sky-500 text-white font-black text-xl px-3 py-1.5 rounded-xl shadow-lg shadow-sky-500/30">
+                        GoTKA
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-sm tracking-wide">GoTKA</h1>
+                        <p class="text-[10px] text-slate-400">Matematika SMP/MTs</p>
+                    </div>
+                </div>
+                <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- MENU NAVIGATION LIST -->
+            <nav class="p-4 space-y-1 text-xs font-semibold overflow-y-auto max-h-[calc(100vh-140px)] custom-scrollbar">
+                <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3 mb-2">Utama</div>
+                <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl bg-sky-600 text-white transition-all">
+                    <i class="fa-solid fa-house w-4 text-center"></i> Beranda
+                </button>
+                <button onclick="switchTab('diagnostic')" id="nav-diagnostic" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
+                    <i class="fa-solid fa-compass w-4 text-center text-amber-400"></i> Know Your Level (20 Soal)
+                </button>
+                <button onclick="switchTab('weakness')" id="nav-weakness" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
+                    <i class="fa-solid fa-bullseye w-4 text-center text-rose-400"></i> Fix Your Weakness (Plus - 35 Soal)
+                </button>
+                <button onclick="switchTab('master')" id="nav-master" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
+                    <i class="fa-solid fa-crown w-4 text-center text-yellow-400"></i> Master Concept (Pro - 50 Soal)
+                </button>
+
+                <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3 mt-4 mb-2">Asesmen & Bank Soal</div>
+                <button onclick="switchTab('banksoal')" id="nav-banksoal" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
+                    <i class="fa-solid fa-cubes w-4 text-center text-indigo-400"></i> Bank Soal & Latihan
+                </button>
+                <button onclick="switchTab('skillmap')" id="nav-skillmap" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
+                    <i class="fa-solid fa-map-location-dot w-4 text-center text-emerald-400"></i> Skill Map
+                </button>
+                <button onclick="switchTab('analisis')" id="nav-analisis" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
+                    <i class="fa-solid fa-chart-pie w-4 text-center text-sky-400"></i> Hasil & Analisis
+                </button>
+
+                <div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider px-3 mt-4 mb-2">Pusat Pengetahuan</div>
+                <button onclick="switchTab('kms')" id="nav-kms" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
+                    <i class="fa-solid fa-brain w-4 text-center text-purple-400"></i> KMS & Kamus Matematika
+                </button>
+                <button onclick="switchTab('paket')" id="nav-paket" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
+                    <i class="fa-solid fa-gem w-4 text-center text-teal-400"></i> Paket Layanan
+                </button>
+                <button onclick="switchTab('profil')" id="nav-profil" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800 hover:text-white transition-all">
+                    <i class="fa-solid fa-user-gear w-4 text-center text-slate-400"></i> Profil Siswa
+                </button>
+            </nav>
+        </div>
+
+        <!-- USER FOOTER CARD -->
+        <div class="p-4 border-t border-slate-800 bg-slate-950/50">
+            <div class="flex items-center gap-3">
+                <div id="userAvatarCircle" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 text-white font-bold flex items-center justify-center text-sm shadow-md">
+                    S
+                </div>
+                <div class="overflow-hidden">
+                    <h4 class="font-bold text-xs text-white truncate" id="sidebarUserName">Siswa 👋</h4>
+                    <span class="text-[10px] text-emerald-400 flex items-center gap-1">
+                        <i class="fa-solid fa-circle text-[6px]"></i> Akun Aktif
+                    </span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <div class="flex-1 md:ml-64 flex flex-col min-h-screen">
+
+        <!-- TOP NAVBAR -->
+        <header class="bg-white border-b border-slate-200 sticky top-0 z-40 px-4 sm:px-8 py-3 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleSidebar()" class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                <div>
+                    <h2 class="font-extrabold text-slate-800 text-sm sm:text-base" id="pageTitle">Beranda Pembelajaran</h2>
+                    <p class="text-xs text-slate-400 hidden sm:block">GoTKA — Assessment & Personalized Learning</p>
+                </div>
+            </div>
+
+            <!-- QUICK PROFILE & NOTIFICATION -->
+            <div class="flex items-center gap-3">
+                <div class="bg-sky-50 border border-sky-200 px-3 py-1.5 rounded-full flex items-center gap-2">
+                    <i class="fa-solid fa-fire text-amber-500 text-xs"></i>
+                    <span class="text-xs font-bold text-sky-800"><span id="streakCount">1</span> Hari Aktif</span>
+                </div>
+                <button onclick="openNameModal()" class="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-full transition cursor-pointer">
+                    <i class="fa-solid fa-user-graduate text-sky-600 text-xs"></i>
+                    <span class="text-xs font-bold text-slate-700 hidden sm:inline" id="topNavUser">Ganti Nama</span>
+                    <i class="fa-solid fa-pen text-[10px] text-slate-400 ml-1"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- PAGE CONTENT CONTAINER -->
+        <main class="p-4 sm:p-6 lg:p-8 space-y-8 flex-1">
+
+            <!-- TAB 1: BERANDA / DASHBOARD SISWA -->
+            <section id="tab-beranda" class="tab-content space-y-6">
+                <!-- HERO WELCOME BANNER -->
+                <div class="bg-gradient-to-r from-sky-600 via-indigo-600 to-purple-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-12 -bottom-12 opacity-10 text-9xl font-black">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div class="relative z-10 max-w-2xl space-y-3">
+                        <span id="heroBadge" class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-md">
+                            Siswa Baru • Belum Ada Data Tes
+                        </span>
+                        <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight">
+                            Halo, <span id="heroStudentName">Siswa</span> 👋
+                        </h1>
+                        <p id="heroDescription" class="text-sky-100 text-xs sm:text-sm leading-relaxed">
+                            Selamat datang di GoTKA! Kamu belum memiliki riwayat latihan. Silakan ikuti <b>Tes Diagnostik (20 Soal)</b> terlebih dahulu agar sistem dapat menganalisis tingkat kemampuan dan peta kelemahanmu secara akurat.
+                        </p>
+                        <div class="pt-2 flex flex-wrap gap-3" id="heroActionButtons">
+                            <button onclick="switchTab('diagnostic')" class="px-5 py-2.5 bg-yellow-400 text-slate-900 hover:bg-yellow-300 rounded-xl font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2">
+                                <i class="fa-solid fa-compass"></i> Mulai Tes Diagnostik (20 Soal)
+                            </button>
+                            <button onclick="switchTab('banksoal')" class="px-5 py-2.5 bg-white/20 hover:bg-white/30 text-white border border-white/30 rounded-xl font-bold text-xs sm:text-sm backdrop-blur-md transition flex items-center gap-2">
+                                <i class="fa-solid fa-cubes"></i> Lihat Bank Soal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OVERVIEW METRICS GRID -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+                        <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Total Soal Dikerjakan</span>
+                        <h3 class="text-2xl font-black text-slate-800" id="dashTotalDrills">0 Soal</h3>
+                        <p class="text-[11px] text-slate-400 font-medium" id="dashDrillSubtitle">Belum pernah tes</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+                        <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Akurasi Rata-rata</span>
+                        <h3 class="text-2xl font-black text-sky-600" id="dashAccuracy">0%</h3>
+                        <p class="text-[11px] text-slate-500">Target minimal: 75%</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+                        <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Materi Terkuat</span>
+                        <h3 class="text-lg font-black text-slate-400 truncate" id="dashStrongest">Belum Dites</h3>
+                        <p class="text-[11px] text-slate-400" id="dashStrongestSub">Perlu diagnostik</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">
+                        <span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Fokus Kelemahan</span>
+                        <h3 class="text-lg font-black text-slate-400 truncate" id="dashWeakest">Belum Dites</h3>
+                        <p class="text-[11px] text-slate-400" id="dashWeakestSub">Ambil tes pertama</p>
+                    </div>
+                </div>
+
+                <!-- SKILL MAP SUMMARY & RECOMMENDED PATH -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- MINI SKILL MAP -->
+                    <div class="lg:col-span-2 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                                <i class="fa-solid fa-map-location-dot text-sky-500"></i> Skill Map Matematika
+                            </h3>
+                            <button onclick="switchTab('skillmap')" class="text-xs font-bold text-sky-600 hover:text-sky-700">Lihat Detail →</button>
+                        </div>
+                        <div class="space-y-3 font-mono text-xs" id="dashSkillBars">
+                            <!-- Dynamic Rendered -->
+                        </div>
+                    </div>
+
+                    <!-- AI RECOMMENDATION CARD -->
+                    <div class="bg-amber-50 border border-amber-200 p-6 rounded-3xl shadow-sm space-y-4 flex flex-col justify-between">
+                        <div class="space-y-3">
+                            <span class="bg-amber-200 text-amber-900 text-[10px] font-black px-2.5 py-1 rounded-md uppercase" id="recomBadge">
+                                Rekomendasi Awal GoTKA
+                            </span>
+                            <h3 class="font-bold text-slate-800 text-base" id="recomTitle">Lakukan Tes Diagnostik Pertama</h3>
+                            <p class="text-xs text-slate-600 leading-relaxed" id="recomDesc">
+                                Sistem GoTKA memerlukan data pengerjaan Tes Diagnostik (20 Soal) pertamamu untuk memetakan kekuatan dan kelemahan secara akurat.
+                            </p>
+                        </div>
+                        <button onclick="switchTab('diagnostic')" id="recomBtn" class="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-2xl font-bold text-xs shadow-md transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-play"></i> Ambil Tes Diagnostik (20 Soal)
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: KNOW YOUR LEVEL (FREE DIAGNOSTIC TEST - 20 SOAL) -->
+            <section id="tab-diagnostic" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-sky-600 uppercase tracking-wider">Paket FREE — Know Your Level</span>
+                            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-800">Tes Diagnostik Kemampuan (20 Soal)</h2>
+                        </div>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Tes Diagnostik ini dirancang dengan <b>20 soal adaptif</b> untuk mendeteksi tingkat pemahaman dasarmu pada seluruh materi Matematika SMP (Aljabar, Geometri, Bilangan, Data & Peluang, Transformasi). Hasil akhir akan menyusun **Skill Map** dan peta kelemahanmu secara otomatis.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs space-y-1">
+                            <span class="font-bold text-slate-700"><i class="fa-solid fa-list-check text-sky-500"></i> Jumlah Soal</span>
+                            <p class="text-slate-500 font-bold text-sky-700">20 Soal Adaptif Campuran</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs space-y-1">
+                            <span class="font-bold text-slate-700"><i class="fa-solid fa-clock text-sky-500"></i> Estimasi Waktu</span>
+                            <p class="text-slate-500">~25 Menit Santai</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs space-y-1">
+                            <span class="font-bold text-slate-700"><i class="fa-solid fa-chart-simple text-sky-500"></i> Output</span>
+                            <p class="text-slate-500">Skill Map & Peta Kelemahan</p>
+                        </div>
+                    </div>
+                    <div class="pt-4">
+                        <button onclick="startDiagnosticTest()" class="px-6 py-3 bg-sky-500 hover:bg-sky-600 text-white rounded-2xl font-bold text-sm shadow-lg shadow-sky-200 transition flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> Mulai Tes Diagnostik (20 Soal)
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: FIX YOUR WEAKNESS (PLUS TIER - 35 SOAL / 10 SOAL REMEDIAL) -->
+            <section id="tab-weakness" class="tab-content hidden space-y-6">
+                <div class="bg-gradient-to-r from-slate-900 to-indigo-950 text-white p-6 sm:p-8 rounded-3xl shadow-lg space-y-3">
+                    <span class="bg-rose-500/30 text-rose-300 border border-rose-500/40 text-xs font-bold px-3 py-1 rounded-full uppercase">
+                        Paket PLUS — Fix Your Weakness
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold">Jalur Remedial & Perbaikan Kelemahan</h2>
+                    <p class="text-slate-300 text-xs sm:text-sm" id="weaknessTopicSub">
+                        Sistem menyusun tahapan pembelajaran bertahap dari level Rendah hingga HOTS khusus untuk materi kelemahanmu.
+                    </p>
+                </div>
+
+                <!-- STEP-BY-STEP LEARNING PATH -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+                                <i class="fa-solid fa-route text-sky-500"></i> Alur Pembelajaran Terpandu (<span id="weaknessTopicTitle">Aljabar</span>)
+                            </h3>
+                            <p class="text-xs text-slate-500">Ikuti langkah remedial atau kerjakan Latihan Paket Plus (35 Soal).</p>
+                        </div>
+                        <button onclick="startPaketPlusTest()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs shadow transition flex items-center gap-2">
+                            <i class="fa-solid fa-bolt text-yellow-300"></i> Kerjakan Paket Plus (35 Soal)
+                        </button>
+                    </div>
+
+                    <div class="space-y-4 relative before:absolute before:inset-0 before:left-6 before:w-0.5 before:bg-slate-200">
+                        <!-- STEP 1 -->
+                        <div class="relative flex items-start gap-4 pl-2">
+                            <div class="w-8 h-8 rounded-full bg-emerald-500 text-white font-bold flex items-center justify-center text-xs z-10">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex-1">
+                                <span class="text-[10px] font-bold text-emerald-600 uppercase">Langkah 1 • Konsep Dasar</span>
+                                <h4 class="font-bold text-slate-800 text-sm">Penguatan Konsep Dasar & Rumus</h4>
+                                <p class="text-xs text-slate-500 mt-1">Memahami definisi, pola, dan rumus dasar topik ini.</p>
+                            </div>
+                        </div>
+
+                        <!-- STEP 2 -->
+                        <div class="relative flex items-start gap-4 pl-2">
+                            <div class="w-8 h-8 rounded-full bg-sky-500 text-white font-bold flex items-center justify-center text-xs z-10 shadow-md shadow-sky-200">
+                                2
+                            </div>
+                            <div class="bg-sky-50/70 p-4 rounded-2xl border border-sky-200 flex-1 space-y-2">
+                                <span class="text-[10px] font-bold text-sky-600 uppercase">Langkah 2 • Latihan Remedial (10 Soal)</span>
+                                <h4 class="font-bold text-slate-800 text-sm">Latihan Fokus Kelemahan (10 Soal Terfokus)</h4>
+                                <p class="text-xs text-slate-600">Menyelesaikan 10 soal khusus topik kelemahanmu secara intensif.</p>
+                                <button onclick="startQuizForWeakestTopic()" class="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-bold text-xs shadow transition inline-flex items-center gap-1.5">
+                                    <i class="fa-solid fa-pen-to-square"></i> Mulai Latihan Remedial (10 Soal)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- STEP 3 -->
+                        <div class="relative flex items-start gap-4 pl-2">
+                            <div class="w-8 h-8 rounded-full bg-indigo-500 text-white font-bold flex items-center justify-center text-xs z-10">
+                                3
+                            </div>
+                            <div class="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100 flex-1 space-y-2">
+                                <span class="text-[10px] font-bold text-indigo-600 uppercase">Langkah 3 • Tantangan Paket Plus</span>
+                                <h4 class="font-bold text-slate-800 text-sm">Evaluasi Menyeluruh Paket Plus (35 Soal)</h4>
+                                <p class="text-xs text-slate-500">Uji ketahanan dan peningkatan akurasimu pada 35 soal pilihan.</p>
+                                <button onclick="startPaketPlusTest()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs shadow transition inline-flex items-center gap-1.5">
+                                    <i class="fa-solid fa-layer-group"></i> Ambil Tes Paket Plus (35 Soal)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: MASTER THE CONCEPT (PRO TIER WITH YOUTUBE INTEGRATION - 50 SOAL) -->
+            <section id="tab-master" class="tab-content hidden space-y-6">
+                <!-- PRO HEADER BANNER -->
+                <div class="bg-gradient-to-r from-sky-600 to-indigo-700 rounded-3xl p-6 sm:p-8 text-white shadow-lg space-y-2">
+                    <span class="bg-yellow-400 text-slate-900 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider">
+                        Paket PRO — Master The Concept (50 Soal)
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold">Modul Video & Tantangan Kompleks Pro</h2>
+                    <p class="text-sky-100 text-xs sm:text-sm">
+                        Saksikan penjelasan visual interaktif, ringkasan rumus, dan selesaikan tantangan komprehensif 50 soal HOTS.
+                    </p>
+                </div>
+
+                <!-- VIDEO MODULE SELECTION TABS -->
+                <div class="flex flex-wrap gap-2 pb-2">
+                    <button onclick="selectVideoLesson('plsv')" id="btn-vid-plsv" class="video-tab-btn px-4 py-2.5 rounded-2xl font-bold text-xs bg-sky-600 text-white shadow transition flex items-center gap-2">
+                        <i class="fa-solid fa-play"></i> PLSV (Aljabar)
+                    </button>
+                    <button onclick="selectVideoLesson('pythagoras')" id="btn-vid-pythagoras" class="video-tab-btn px-4 py-2.5 rounded-2xl font-bold text-xs bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition flex items-center gap-2">
+                        <i class="fa-solid fa-play"></i> Teorema Pythagoras (Geometri)
+                    </button>
+                    <button onclick="selectVideoLesson('statistika')" id="btn-vid-statistika" class="video-tab-btn px-4 py-2.5 rounded-2xl font-bold text-xs bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition flex items-center gap-2">
+                        <i class="fa-solid fa-play"></i> Mean, Median & Modus (Data)
+                    </button>
+                </div>
+
+                <!-- VIDEO PLAYER & LESSON CONTAINER -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white rounded-3xl border border-slate-200 shadow-md overflow-hidden">
+                        <!-- VIDEO EMBED HEADER -->
+                        <div class="p-4 bg-slate-900 text-white flex items-center justify-between text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></span>
+                                <span class="font-bold" id="videoTopicTitle">Materi: Persamaan Linear Satu Variabel (PLSV)</span>
+                            </div>
+                            <span class="text-slate-400 font-mono text-[11px]" id="videoYoutubeIdText">YouTube ID: 5ykuESdSgy4</span>
+                        </div>
+
+                        <!-- EMBED YOUTUBE PLAYER -->
+                        <div class="relative aspect-video bg-black w-full">
+                            <iframe 
+                                id="mainVideoIframe"
+                                class="w-full h-full" 
+                                src="https://www.youtube.com/embed/5ykuESdSgy4?enablejsapi=1" 
+                                title="GoTKA Video Pembelajaran" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+
+                        <!-- VIDEO VERIFICATION ACTION -->
+                        <div class="p-5 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-100 bg-slate-50">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center font-bold">
+                                    <i class="fa-solid fa-circle-play text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-xs sm:text-sm" id="videoDurationText">Durasi Video: ~10 Menit</h4>
+                                    <p class="text-[11px] text-slate-500">Tonton hingga selesai untuk mengkonfirmasi pemahaman.</p>
+                                </div>
+                            </div>
+                            <button onclick="confirmVideoWatched()" id="btnUnderstandVideo" class="w-full sm:w-auto px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-bold text-xs shadow-md transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-circle-check"></i> Saya Sudah Memahami
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- LESSON SUMMARY & FORMULA CARD -->
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                        <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-book-open text-sky-500"></i> Ringkasan Konsep
+                        </h3>
+                        <div class="p-4 bg-sky-50 border border-sky-200 rounded-2xl font-mono text-xs text-sky-900 font-semibold space-y-1">
+                            <p id="summaryFormulaTitle">Bentuk Umum: <span class="bg-white px-2 py-0.5 rounded border border-sky-300">ax + b = c</span></p>
+                            <p class="text-[11px] text-sky-700 font-sans font-normal mt-1" id="summaryFormulaText">
+                                Variabel <b>x</b> berpangkat 1, <b>a</b> adalah koefisien (a ≠ 0), dan <b>b, c</b> adalah konstanta.
+                            </p>
+                        </div>
+                        <div class="text-xs text-slate-600 space-y-2">
+                            <p><b>Langkah Penyelesaian Pasca Video:</b></p>
+                            <ol class="list-decimal list-inside space-y-1 pl-1" id="summaryStepsList">
+                                <li>Pindahkan suku konstanta ke ruas kanan.</li>
+                                <li>Ubah tanda operasi (+ menjadi −, atau sebaliknya).</li>
+                                <li>Bagi kedua ruas dengan koefisien <b>a</b>.</li>
+                            </ol>
+                        </div>
+                        <div class="pt-2 space-y-2">
+                            <button onclick="startQuizForActiveLesson()" id="btnQuizFromVideo" class="w-full py-2.5 bg-sky-500 hover:bg-sky-600 text-white rounded-2xl font-bold text-xs shadow-md transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-pen-ruler"></i> Latihan Topik Ini (10 Soal)
+                            </button>
+                            <button onclick="startPaketProTest()" class="w-full py-2.5 bg-yellow-500 hover:bg-yellow-600 text-slate-900 rounded-2xl font-bold text-xs shadow-md transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-crown"></i> Tantangan Paket Pro (50 Soal HOTS)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: BANK SOAL & ASSESSMENT SYSTEM -->
+            <section id="tab-banksoal" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <h2 class="text-xl font-extrabold text-slate-800">Bank Soal & Modul Latihan GoTKA</h2>
+                            <p class="text-xs text-slate-500">Pilih topik dan tingkat kesulitan untuk mulai menguji kemampuanmu.</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <select id="filterTopic" onchange="renderBankSoalCards()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none">
+                                <option value="ALL">Semua Topik</option>
+                                <option value="Aljabar">Aljabar</option>
+                                <option value="Bilangan">Bilangan</option>
+                                <option value="Geometri">Geometri</option>
+                                <option value="Data">Data & Peluang</option>
+                                <option value="Transformasi">Transformasi</option>
+                            </select>
+                            <select id="filterLevel" onchange="renderBankSoalCards()" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none">
+                                <option value="ALL">Semua Level</option>
+                                <option value="Rendah">Rendah</option>
+                                <option value="Sedang">Sedang</option>
+                                <option value="HOTS">HOTS</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- CARDS CONTAINER FOR BANK SOAL -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2" id="bankSoalGrid">
+                        <!-- Dynamic rendered by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: VISUAL SKILL MAP -->
+            <section id="tab-skillmap" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                    <div>
+                        <span class="text-xs font-bold text-sky-600 uppercase tracking-wider">Visualisasi Kemampuan</span>
+                        <h2 class="text-2xl font-extrabold text-slate-800">Peta Kemampuan (Skill Map) Siswa</h2>
+                        <p class="text-xs text-slate-500 mt-1">Diperbarui secara otomatis setiap kali kamu menyelesaikan latihan soal.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+                            <h3 class="font-bold text-slate-800 text-sm">Penguasaan Per Topik Utama</h3>
+                            <div class="space-y-3 text-xs font-bold" id="skillMapBars">
+                                <!-- Dynamic Render -->
+                            </div>
+                        </div>
+
+                        <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl space-y-4">
+                            <h3 class="font-bold text-slate-800 text-sm">Penguasaan Per Level Kesulitan</h3>
+                            <div class="space-y-4 text-xs font-bold">
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-slate-700">Level Rendah (Pemahaman Konsep)</span>
+                                        <span class="text-emerald-600" id="lvlRendahVal">0%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                                        <div class="bg-emerald-500 h-full rounded-full transition-all duration-500" id="barRendah" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-slate-700">Level Sedang (Penerapan)</span>
+                                        <span class="text-sky-600" id="lvlSedangVal">0%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                                        <div class="bg-sky-500 h-full rounded-full transition-all duration-500" id="barSedang" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-slate-700">Level HOTS (Analisis & Penalaran)</span>
+                                        <span class="text-rose-500" id="lvlHotsVal">0%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                                        <div class="bg-rose-500 h-full rounded-full transition-all duration-500" id="barHots" style="width: 0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 7: HASIL & ANALISIS -->
+            <section id="tab-analisis" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-4">
+                    <h2 class="text-2xl font-extrabold text-slate-800">Riwayat & Analisis Latihan</h2>
+                    <p class="text-xs text-slate-500">Catatan lengkap percobaan latihan dan tes diagnostik yang tersimpan otomatis.</p>
+                    <div class="overflow-x-auto pt-2">
+                        <table class="w-full text-left text-xs text-slate-600 border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-200 bg-slate-50 text-slate-800 font-bold">
+                                    <th class="p-3 rounded-l-xl">Waktu & Tanggal</th>
+                                    <th class="p-3">Sesi / Topik</th>
+                                    <th class="p-3">Skor</th>
+                                    <th class="p-3">Benar / Total</th>
+                                    <th class="p-3 rounded-r-xl">Akurasi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <!-- Dynamic Render -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 8: KMS (KNOWLEDGE MANAGEMENT SYSTEM) -->
+            <section id="tab-kms" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                    <div>
+                        <span class="text-xs font-bold text-purple-600 uppercase tracking-wider">Knowledge Management System</span>
+                        <h2 class="text-2xl font-extrabold text-slate-800">Pusat Pengetahuan GoTKA</h2>
+                        <p class="text-xs text-slate-500 mt-1">Akses FAQ, Soal Sering Ditanyakan (SSD), dan Kamus Istilah Matematika Digital.</p>
+                    </div>
+
+                    <!-- KMS SUB TABS -->
+                    <div class="flex border-b border-slate-200 gap-6 text-xs font-bold">
+                        <button onclick="switchKmsSubTab('faq')" id="kmsTabFaq" class="pb-3 border-b-2 border-purple-600 text-purple-600">
+                            FAQ Platform
+                        </button>
+                        <button onclick="switchKmsSubTab('ssd')" id="kmsTabSsd" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-600">
+                            SSD (Soal Sering Ditanyakan)
+                        </button>
+                        <button onclick="switchKmsSubTab('kamus')" id="kmsTabKamus" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-600">
+                            Kamus Istilah Digital
+                        </button>
+                    </div>
+
+                    <!-- SUB CONTENT 1: FAQ -->
+                    <div id="kmsSubFaq" class="space-y-3">
+                        <div class="border border-slate-200 rounded-2xl overflow-hidden">
+                            <button onclick="toggleAccordion('faq1')" class="w-full text-left p-4 bg-slate-50 font-bold text-xs text-slate-800 flex justify-between items-center">
+                                <span>Apa bedanya paket Free, Plus, dan Pro di GoTKA?</span>
+                                <i class="fa-solid fa-chevron-down text-slate-400"></i>
+                            </button>
+                            <div id="faq1" class="hidden p-4 text-xs text-slate-600 bg-white border-t border-slate-100 leading-relaxed">
+                                Paket Free berfokus pada tes diagnostik dasar (20 Soal). Paket Plus menyediakan analisis kelemahan, latihan remedial (10 Soal), dan latihan evaluasi (35 Soal). Paket Pro dilengkapi modul video pembelajaran multimedia dan 50 soal tantangan HOTS.
+                            </div>
+                        </div>
+                        <div class="border border-slate-200 rounded-2xl overflow-hidden">
+                            <button onclick="toggleAccordion('faq2')" class="w-full text-left p-4 bg-slate-50 font-bold text-xs text-slate-800 flex justify-between items-center">
+                                <span>Bagaimana sistem GoTKA tahu kelemahan saya?</span>
+                                <i class="fa-solid fa-chevron-down text-slate-400"></i>
+                            </button>
+                            <div id="faq2" class="hidden p-4 text-xs text-slate-600 bg-white border-t border-slate-100 leading-relaxed">
+                                Sistem membaca persentase jawaban benar/salah dari setiap topik dan level soal (Rendah, Sedang, HOTS) yang kamu kerjakan, kemudian otomatis memetakan ke Skill Map.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUB CONTENT 2: SSD (SOAL SERING DITANYAKAN MATEMATIKA) -->
+                    <div id="kmsSubSsd" class="space-y-3 hidden">
+                        <div class="p-4 bg-purple-50 border border-purple-200 rounded-2xl space-y-2">
+                            <h4 class="font-bold text-slate-800 text-xs">❓ "Kenapa tanda negatif (−) berubah menjadi positif (+) saat pindah ruas?"</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                <b>Penjelasan Konsep:</b> Sebenarnya angka tidak "pindah", melainkan kedua ruas diperlakukan sama. Untuk menghilangkan −b di ruas kiri, kita menambahkan +b pada kedua ruas.
+                            </p>
+                        </div>
+                        <div class="p-4 bg-purple-50 border border-purple-200 rounded-2xl space-y-2">
+                            <h4 class="font-bold text-slate-800 text-xs">❓ "Kapan kita harus menggunakan rumus Pythagoras?"</h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                <b>Penjelasan Konsep:</b> Teorema Pythagoras <code>a² + b² = c²</code> HANYA berlaku pada **segitiga siku-siku** di mana <b>c</b> adalah sisi terpanjang (hipotenusa).
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SUB CONTENT 3: KAMUS DIGITAL MATEMATIKA -->
+                    <div id="kmsSubKamus" class="space-y-4 hidden">
+                        <input type="text" id="dictSearchInput" oninput="filterDictionary()" placeholder="Cari istilah: Gradien, Hipotenusa, Koefisien..." class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-purple-400 focus:outline-none">
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="dictGrid">
+                            <div class="p-3 border border-slate-200 rounded-xl text-xs space-y-1 dict-item">
+                                <b class="text-purple-700">Gradien (m)</b>
+                                <p class="text-slate-500">Nilai kemiringan suatu garis lurus pada bidang koordinat kartesius.</p>
+                            </div>
+                            <div class="p-3 border border-slate-200 rounded-xl text-xs space-y-1 dict-item">
+                                <b class="text-purple-700">Hipotenusa</b>
+                                <p class="text-slate-500">Sisi terpanjang pada segitiga siku-siku yang terletak di depan sudut 90°.</p>
+                            </div>
+                            <div class="p-3 border border-slate-200 rounded-xl text-xs space-y-1 dict-item">
+                                <b class="text-purple-700">Koefisien</b>
+                                <p class="text-slate-500">Faktor pengali berbentuk angka yang berdampingan dengan variabel (misal: 3x -> 3 adalah koefisien).</p>
+                            </div>
+                            <div class="p-3 border border-slate-200 rounded-xl text-xs space-y-1 dict-item">
+                                <b class="text-purple-700">Variabel</b>
+                                <p class="text-slate-500">Simbol huruf (seperti x atau y) yang mewakili suatu nilai yang belum diketahui.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- TAB 9: PAKET LAYANAN -->
+            <section id="tab-paket" class="tab-content hidden space-y-6">
+                <div class="text-center max-w-xl mx-auto space-y-2">
+                    <h2 class="text-2xl font-extrabold text-slate-800">Pilih Paket Belajar GoTKA</h2>
+                    <p class="text-xs text-slate-500">Sesuaikan dengan kebutuhan persiapan belajar matematika SMP kamu.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- FREE -->
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <span class="text-xs font-bold text-slate-400 uppercase">Paket 1</span>
+                            <h3 class="text-xl font-extrabold text-slate-800">FREE</h3>
+                            <p class="text-xs text-slate-500">Know Your Level — Diagnostik dasar kemampuan.</p>
+                            <ul class="text-xs text-slate-600 space-y-2 pt-2">
+                                <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Tes Diagnostik <b>20 Soal</b></li>
+                                <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Skor & Akurasi</li>
+                                <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Skill Map Dasar</li>
+                            </ul>
+                        </div>
+                        <button onclick="switchTab('diagnostic')" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs">Coba Free (20 Soal)</button>
+                    </div>
+
+                    <!-- PLUS -->
+                    <div class="bg-white p-6 rounded-3xl border-2 border-sky-400 shadow-md flex flex-col justify-between space-y-4 relative">
+                        <div class="space-y-3">
+                            <span class="text-xs font-bold text-sky-600 uppercase">Paket 2</span>
+                            <h3 class="text-xl font-extrabold text-slate-800">PLUS</h3>
+                            <p class="text-xs text-slate-500">Fix Your Weakness — Perbaiki kelemahan secara terstruktur.</p>
+                            <ul class="text-xs text-slate-600 space-y-2 pt-2">
+                                <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Semua Fitur Free</li>
+                                <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Latihan Remedial <b>10 Soal</b></li>
+                                <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Latihan Evaluasi <b>35 Soal</b></li>
+                                <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i> Rumus & Langkah Lengkap</li>
+                            </ul>
+                        </div>
+                        <button onclick="startPaketPlusTest()" class="w-full py-2.5 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-bold text-xs shadow">Buka Plus (35 Soal)</button>
+                    </div>
+
+                    <!-- PRO -->
+                    <div class="bg-slate-900 text-white p-6 rounded-3xl shadow-xl flex flex-col justify-between space-y-4 relative overflow-hidden">
+                        <div class="absolute -right-6 -top-6 bg-yellow-400 text-slate-900 text-[10px] font-black px-8 py-2 rotate-45">POPULER</div>
+                        <div class="space-y-3">
+                            <span class="text-xs font-bold text-yellow-400 uppercase">Paket 3</span>
+                            <h3 class="text-xl font-extrabold text-white">PRO</h3>
+                            <p class="text-xs text-slate-400">Master The Concept — Kuasai konsep hingga HOTS.</p>
+                            <ul class="text-xs text-slate-300 space-y-2 pt-2">
+                                <li><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Semua Fitur Plus</li>
+                                <li><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Modul Video YouTube Pembelajaran</li>
+                                <li><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Tantangan Komprehensif <b>50 Soal</b></li>
+                                <li><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Akses KMS & SSD Lengkap</li>
+                            </ul>
+                        </div>
+                        <button onclick="startPaketProTest()" class="w-full py-2.5 bg-yellow-400 hover:bg-yellow-500 text-slate-900 rounded-xl font-bold text-xs shadow">Aktifkan Pro (50 Soal)</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 10: PROFIL SISWA -->
+            <section id="tab-profil" class="tab-content hidden space-y-6">
+                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+                    <h2 class="text-2xl font-extrabold text-slate-800">Profil Pembelajar GoTKA</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                        <div class="space-y-1">
+                            <label class="block font-bold text-slate-700">Nama Siswa:</label>
+                            <input type="text" id="inputStudentName" value="" class="w-full p-3 border border-slate-200 rounded-xl font-semibold text-slate-800">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="block font-bold text-slate-700">Kelas & Jenjang:</label>
+                            <input type="text" id="inputStudentClass" value="Kelas IX (SMP)" class="w-full p-3 border border-slate-200 rounded-xl font-semibold text-slate-800">
+                        </div>
+                        <div class="space-y-1 md:col-span-2">
+                            <label class="block font-bold text-slate-700">Target Belajar Utama:</label>
+                            <input type="text" id="inputStudentGoal" value="Menguasai Soal HOTS & Nilai Ujian Matematika > 85" class="w-full p-3 border border-slate-200 rounded-xl font-semibold text-slate-800">
+                        </div>
+                    </div>
+                    <button onclick="saveStudentProfile()" class="px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs rounded-xl shadow transition">
+                        Simpan Perubahan Profil
+                    </button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- QUIZ / ASSESSMENT EXECUTION MODAL -->
+    <div id="quizModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl p-6 space-y-5 relative overflow-hidden max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <!-- QUIZ HEADER -->
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div>
+                    <span class="text-[10px] font-extrabold text-sky-600 uppercase tracking-wider" id="quizSessionTitle">TES DIAGNOSTIK</span>
+                    <h3 class="font-black text-slate-800 text-base" id="quizProgressText">Soal 1 dari 20</h3>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="bg-amber-50 border border-amber-200 px-3 py-1 rounded-xl text-xs font-bold text-amber-700 flex items-center gap-1.5">
+                        <i class="fa-solid fa-stopwatch"></i> <span id="quizTimerText">25:00</span>
+                    </div>
+                    <button onclick="closeQuizModal()" class="text-slate-400 hover:text-slate-600 text-lg">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- QUESTION AREA -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-2">
+                    <span class="bg-sky-100 text-sky-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full" id="quizBadgeTopic">Aljabar</span>
+                    <span class="bg-slate-100 text-slate-600 text-[10px] font-bold px-2.5 py-0.5 rounded-full" id="quizBadgeLevel">Level Sedang</span>
+                </div>
+                <p class="text-slate-800 font-bold text-sm leading-relaxed" id="quizQuestionText">
+                    Loading soal...
+                </p>
+
+                <!-- CHOICES CONTAINER -->
+                <div class="space-y-2 pt-1" id="quizOptionsContainer">
+                    <!-- Dynamic Choices -->
+                </div>
+
+                <!-- FEEDBACK & CONCEPT EXPLANATION BOX (HIDDEN UNTIL SUBMIT) -->
+                <div id="quizFeedbackBox" class="hidden p-4 rounded-2xl space-y-3 text-xs">
+                    <div id="feedbackHeader" class="font-bold flex items-center gap-2 text-sm">
+                        <!-- Dynamic Result Header -->
+                    </div>
+                    
+                    <div class="p-4 bg-white border rounded-xl space-y-2 font-mono text-[11px] text-slate-700" id="explanationContent">
+                        <!-- Dynamic Solution Explanation -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- ACTION FOOTER -->
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                <span class="text-[11px] text-slate-400" id="quizStatusFooter">Pilih salah satu jawaban di atas</span>
+                <button onclick="submitAnswer()" id="btnSubmitAnswer" class="px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs rounded-xl shadow transition flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> Submit Jawaban
+                </button>
+                <button onclick="nextQuestionInQuiz()" id="btnNextQuestion" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow transition hidden items-center gap-2">
+                    Lanjut Soal Berikutnya <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ONBOARDING / NAME INPUT MODAL -->
+    <div id="nameModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl p-6 sm:p-8 space-y-5 text-center relative overflow-hidden">
+            <div class="w-16 h-16 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center text-2xl font-black mx-auto shadow-inner">
+                <i class="fa-solid fa-user-astronaut"></i>
+            </div>
+            <div class="space-y-1">
+                <h3 class="text-xl font-extrabold text-slate-800">Selamat Datang di GoTKA!</h3>
+                <p class="text-xs text-slate-500">Masukkan nama kamu untuk memulai pengalaman belajar personal Matematika SMP.</p>
+            </div>
+            <div class="space-y-3 text-left">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Nama Lengkap / Panggilan:</label>
+                    <input type="text" id="modalInputName" placeholder="Contoh: Hilwa" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 text-sm focus:ring-2 focus:ring-sky-400 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Kelas & Jenjang:</label>
+                    <select id="modalInputClass" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 text-sm focus:ring-2 focus:ring-sky-400 focus:outline-none">
+                        <option value="Kelas IX (SMP)">Kelas IX (SMP)</option>
+                        <option value="Kelas VIII (SMP)">Kelas VIII (SMP)</option>
+                        <option value="Kelas VII (SMP)">Kelas VII (SMP)</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="saveNameFromModal()" class="w-full py-3 bg-sky-500 hover:bg-sky-600 text-white font-bold text-xs rounded-xl shadow-lg shadow-sky-200 transition">
+                Mulai Belajar Sekarang →
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // EXPANDED QUESTION REPOSITORY (FULL DATASET COVERING SMP MATH)
+        const MASTER_QUESTIONS = [
+            { id: 1, topic: "Aljabar", level: "Sedang", title: "Persamaan Linear Satu Variabel", question: "Jika 3x + 7 = 25, maka nilai dari x adalah...", options: ["x = 4", "x = 6", "x = 8", "x = 5"], correct: 1, formula: "3x + 7 = 25 ➔ 3x = 18 ➔ x = 6", steps: ["Pindahkan konstanta 7 ke ruas kanan: 3x = 25 - 7", "Sederhanakan: 3x = 18", "Bagi dengan 3: x = 18 / 3 = 6"], youtubeId: "5ykuESdSgy4" },
+            { id: 2, topic: "Geometri", level: "Sedang", title: "Teorema Pythagoras", question: "Sebuah segitiga siku-siku memiliki alas 6 cm dan tinggi 8 cm. Berapakah panjang sisi miringnya (hipotenusa)?", options: ["10 cm", "12 cm", "14 cm", "9 cm"], correct: 0, formula: "c² = a² + b² ➔ c = √(6² + 8²)", steps: ["Kuadratkan alas dan tinggi: 6² = 36 dan 8² = 64", "Jumlahkan: 36 + 64 = 100", "Akar kuadratkan: c = √100 = 10 cm"], youtubeId: "JJaptwjRbxc" },
+            { id: 3, topic: "Data", level: "Rendah", title: "Ukuran Pemusatan Data (Statistika)", question: "Diketahui data nilai matematika: 7, 8, 8, 9, 5, 8, 10. Berapakah nilai Modus dari data tersebut?", options: ["7", "8", "9", "5"], correct: 1, formula: "Modus = Nilai dengan frekuensi kemunculan terbanyak", steps: ["Urutkan data: 5, 7, 8, 8, 8, 9, 10", "Angka 8 muncul 3 kali", "Jadi Modus = 8"], youtubeId: "APDjLfxq6vY" },
+            { id: 4, topic: "Bilangan", level: "Rendah", title: "Operasi Perbandingan & Rasio", question: "Uang tabungan Budi dan Sinta berbanding 3 : 5. Jika total uang mereka Rp 160.000, berapa uang tabungan Sinta?", options: ["Rp 60.000", "Rp 100.000", "Rp 80.000", "Rp 120.000"], correct: 1, formula: "Sinta = (Rasio Sinta / Total Rasio) × Total Uang", steps: ["Total rasio = 3 + 5 = 8", "Uang Sinta = (5 / 8) × Rp 160.000", "Uang Sinta = 5 × Rp 20.000 = Rp 100.000"], youtubeId: "" },
+            { id: 5, topic: "Aljabar", level: "HOTS", title: "Sistem Persamaan Linear Dua Variabel", question: "Harga 2 buku dan 3 pensil adalah Rp 19.000. Harga 3 buku dan 1 pensil adalah Rp 20.000. Berapa harga 1 buku?", options: ["Rp 5.000", "Rp 3.000", "Rp 6.000", "Rp 4.000"], correct: 0, formula: "2x + 3y = 19.000 ; 3x + y = 20.000", steps: ["Kalikan persamaan kedua dengan 3: 9x + 3y = 60.000", "Kurangkan: (9x - 2x) = 60.000 - 19.000", "7x = 41.000 ➔ x = 5.000"], youtubeId: "5ykuESdSgy4" },
+            { id: 6, topic: "Bilangan", level: "Sedang", title: "Operasi Pecahan & Persentase", question: "Sebuah toko pakaian memberikan diskon 20%. Jika harga awal baju Rp 150.000, berapa harga setelah diskon?", options: ["Rp 120.000", "Rp 130.000", "Rp 110.000", "Rp 125.000"], correct: 0, formula: "Harga Diskon = Harga Awal × (1 - Diskon)", steps: ["Hitung diskon: 20% × 150.000 = 30.000", "Harga bayar = 150.000 - 30.000 = 120.000"], youtubeId: "" },
+            { id: 7, topic: "Geometri", level: "Rendah", title: "Keliling dan Luas Persegi Panjang", question: "Panjang sebuah persegi panjang 12 cm dan lebarnya 8 cm. Berapakah keliling persegi panjang tersebut?", options: ["40 cm", "96 cm", "20 cm", "48 cm"], correct: 0, formula: "Keliling = 2 × (Panjang + Lebar)", steps: ["K = 2 × (12 + 8)", "K = 2 × 20 = 40 cm"], youtubeId: "" },
+            { id: 8, topic: "Data", level: "Sedang", title: "Rata-rata (Mean)", question: "Rata-rata nilai matematika 4 orang siswa adalah 75. Jika ditambah nilai Anton, rata-ratanya menjadi 78. Nilai Anton adalah...", options: ["90", "87", "85", "92"], correct: 0, formula: "Mean = Total Nilai / Banyak Siswa", steps: ["Total 4 siswa = 4 × 75 = 300", "Total 5 siswa = 5 × 78 = 390", "Nilai Anton = 390 - 300 = 90"], youtubeId: "APDjLfxq6vY" },
+            { id: 9, topic: "Transformasi", level: "Sedang", title: "Refleksi Terhadap Sumbu X", question: "Titik P(4, -3) dicerminkan terhadap sumbu X. Koordinat bayangan titik P' adalah...", options: ["P'(4, 3)", "P'(-4, -3)", "P'(-4, 3)", "P'(3, -4)"], correct: 0, formula: "Refleksi sumbu X: (x, y) ➔ (x, -y)", steps: ["x tetap = 4", "y menjadi -(-3) = 3", "Bayangan P'(4, 3)"], youtubeId: "" },
+            { id: 10, topic: "Aljabar", level: "Rendah", title: "Penyederhanaan Bentuk Aljabar", question: "Sederhanakan bentuk aljabar berikut: 5a + 3b - 2a + 7b", options: ["3a + 10b", "7a + 10b", "3a + 4b", "10a + 3b"], correct: 0, formula: "Kelompokkan suku-suku sejenis", steps: ["(5a - 2a) + (3b + 7b)", "= 3a + 10b"], youtubeId: "5ykuESdSgy4" },
+            { id: 11, topic: "Geometri", level: "HOTS", title: "Volume dan Luas Tabung", question: "Sebuah tabung memiliki jari-jari alas 7 cm dan tinggi 10 cm. Berapakah volume tabung tersebut? (π = 22/7)", options: ["1.540 cm³", "1.450 cm³", "770 cm³", "3.080 cm³"], correct: 0, formula: "V = π × r² × t", steps: ["V = (22/7) × 7 × 7 × 10", "V = 22 × 7 × 10 = 1.540 cm³"], youtubeId: "" },
+            { id: 12, topic: "Bilangan", level: "HOTS", title: "Pola Bilangan Aritmetika", question: "Suku ke-20 dari barisan aritmetika 5, 8, 11, 14, ... adalah...", options: ["62", "65", "59", "68"], correct: 0, formula: "Un = a + (n - 1)b", steps: ["a = 5, b = 3, n = 20", "U20 = 5 + (20 - 1)3", "U20 = 5 + 19 × 3 = 5 + 57 = 62"], youtubeId: "" }
+        ];
+
+        // VIDEO LESSON DATA (PRO TIER)
+        const VIDEO_LESSONS = {
+            plsv: {
+                title: "Materi: Persamaan Linear Satu Variabel (PLSV)",
+                youtubeId: "5ykuESdSgy4",
+                duration: "Durasi Video: ~10 Menit",
+                formulaTitle: "Bentuk Umum: ax + b = c",
+                formulaText: "Variabel x berpangkat 1, a adalah koefisien (a ≠ 0), dan b, c adalah konstanta.",
+                steps: [
+                    "Pindahkan suku konstanta b ke ruas kanan.",
+                    "Ubah tanda operasi (+ menjadi −, atau sebaliknya).",
+                    "Bagi kedua ruas dengan koefisien a."
+                ],
+                topic: "Aljabar"
+            },
+            pythagoras: {
+                title: "Materi: Teorema Pythagoras (Geometri)",
+                youtubeId: "JJaptwjRbxc",
+                duration: "Durasi Video: ~12 Menit",
+                formulaTitle: "Rumus Utama: c² = a² + b²",
+                formulaText: "Berlaku pada segitiga siku-siku. c adalah sisi miring (hipotenusa), a dan b adalah sisi tegak.",
+                steps: [
+                    "Identifikasi sisi miring (c) di depan sudut 90°.",
+                    "Kuadratkan kedua sisi tegak (a² + b²).",
+                    "Hitung akar kuadrat dari jumlah tersebut untuk mencari c."
+                ],
+                topic: "Geometri"
+            },
+            statistika: {
+                title: "Materi: Mean, Median & Modus (Data & Peluang)",
+                youtubeId: "APDjLfxq6vY",
+                duration: "Durasi Video: ~15 Menit",
+                formulaTitle: "Mean = Total Nilai / Banyak Data",
+                formulaText: "Median adalah nilai tengah setelah diurutkan. Modus adalah nilai paling sering muncul.",
+                steps: [
+                    "Urutkan sekumpulan data dari terkecil ke terbesar.",
+                    "Hitung nilai rata-rata (Mean) dengan menjumlahkan semua angka lalu dibagi jumlah data.",
+                    "Tentukan nilai tengah (Median) dan frekuensi tertinggi (Modus)."
+                ],
+                topic: "Data"
+            }
+        };
+
+        // LOCALSTORAGE INITIALIZATION
+        let studentState = JSON.parse(localStorage.getItem('gotka_state')) || {
+            name: "",
+            class: "Kelas IX (SMP)",
+            goal: "Menguasai Soal HOTS & Nilai Ujian Matematika > 85",
+            history: [],
+            skillMap: {
+                Bilangan: 0,
+                Aljabar: 0,
+                Geometri: 0,
+                Data: 0,
+                Transformasi: 0
+            }
+        };
+
+        // QUIZ SESSION STATE
+        let activeQuizQuestions = [];
+        let activeQuizIndex = 0;
+        let activeQuizCorrectCount = 0;
+        let selectedOptionIndex = null;
+        let activeTopicScores = {};
+        let activeVideoLessonKey = "plsv";
+
+        // ON LOAD INITIALIZATION
+        window.onload = function() {
+            checkUserOnboarding();
+            updateUIFromState();
+            renderBankSoalCards();
+            renderSkillMapBars();
+            renderHistoryTable();
+            selectVideoLesson('plsv');
+        };
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+
+        function checkUserOnboarding() {
+            if (!studentState.name || studentState.name.trim() === "") {
+                openNameModal();
+            }
+        }
+
+        function openNameModal() {
+            document.getElementById('modalInputName').value = studentState.name || "";
+            document.getElementById('modalInputClass').value = studentState.class || "Kelas IX (SMP)";
+            document.getElementById('nameModal').classList.remove('hidden');
+        }
+
+        function saveNameFromModal() {
+            const inputName = document.getElementById('modalInputName').value.trim();
+            const inputClass = document.getElementById('modalInputClass').value;
+
+            if (!inputName) {
+                alert("Silakan masukkan nama kamu terlebih dahulu!");
+                return;
+            }
+
+            studentState.name = inputName;
+            studentState.class = inputClass;
+            localStorage.setItem('gotka_state', JSON.stringify(studentState));
+
+            document.getElementById('nameModal').classList.add('hidden');
+            updateUIFromState();
+        }
+
+        // TAB SWITCHING
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById('tab-' + tabId);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-600', 'text-white');
+                btn.classList.add('text-slate-300');
+            });
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-sky-600', 'text-white');
+                activeBtn.classList.remove('text-slate-300');
+            }
+
+            const titles = {
+                beranda: "Beranda Pembelajaran",
+                diagnostic: "Know Your Level — Tes Diagnostik (20 Soal)",
+                weakness: "Fix Your Weakness — Paket Plus (35 Soal)",
+                master: "Master The Concept — Paket Pro (50 Soal)",
+                banksoal: "Bank Soal & Latihan Adaptif",
+                skillmap: "Peta Kemampuan (Skill Map)",
+                analisis: "Hasil & Analisis Latihan",
+                kms: "Pusat Pengetahuan (KMS)",
+                paket: "Paket Layanan GoTKA",
+                profil: "Profil Pembelajar"
+            };
+            document.getElementById('pageTitle').innerText = titles[tabId] || "GoTKA";
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // UPDATE UI BASED ON STATE (ZERO STATE VS ACTIVE LEARNER)
+        function updateUIFromState() {
+            const currentName = studentState.name || "Siswa GoTKA";
+            const initialLetter = currentName.charAt(0).toUpperCase();
+
+            document.getElementById('userAvatarCircle').innerText = initialLetter;
+            document.getElementById('sidebarUserName').innerText = currentName + " 👋";
+            document.getElementById('topNavUser').innerText = currentName;
+            document.getElementById('heroStudentName').innerText = currentName;
+            document.getElementById('inputStudentName').value = currentName;
+            document.getElementById('inputStudentClass').value = studentState.class;
+            document.getElementById('inputStudentGoal').value = studentState.goal;
+
+            const totalTests = studentState.history ? studentState.history.length : 0;
+
+            if (totalTests === 0) {
+                // ZERO STATE (NEW USER)
+                document.getElementById('heroBadge').innerText = "Siswa Baru • Belum Ada Data Tes";
+                document.getElementById('heroDescription').innerHTML = "Selamat datang di GoTKA! Kamu belum memiliki riwayat latihan. Silakan ikuti <b>Tes Diagnostik (20 Soal)</b> terlebih dahulu agar sistem dapat menganalisis tingkat kemampuan dan peta kelemahanmu secara akurat.";
+                document.getElementById('heroActionButtons').innerHTML = `
+                    <button onclick="switchTab('diagnostic')" class="px-5 py-2.5 bg-yellow-400 text-slate-900 hover:bg-yellow-300 rounded-xl font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2">
+                        <i class="fa-solid fa-compass"></i> Mulai Tes Diagnostik (20 Soal)
+                    </button>
+                    <button onclick="switchTab('banksoal')" class="px-5 py-2.5 bg-white/20 hover:bg-white/30 text-white border border-white/30 rounded-xl font-bold text-xs sm:text-sm backdrop-blur-md transition flex items-center gap-2">
+                        <i class="fa-solid fa-cubes"></i> Lihat Bank Soal
+                    </button>
+                `;
+
+                document.getElementById('dashTotalDrills').innerText = "0 Soal";
+                document.getElementById('dashDrillSubtitle').innerText = "Belum pernah tes";
+                document.getElementById('dashAccuracy').innerText = "0%";
+                document.getElementById('dashStrongest').innerText = "Belum Dites";
+                document.getElementById('dashStrongestSub').innerText = "Perlu diagnostik";
+                document.getElementById('dashWeakest').innerText = "Belum Dites";
+                document.getElementById('dashWeakestSub').innerText = "Ambil tes pertama";
+
+                document.getElementById('recomBadge').innerText = "Rekomendasi Awal GoTKA";
+                document.getElementById('recomTitle').innerText = "Lakukan Tes Diagnostik Pertama";
+                document.getElementById('recomDesc').innerText = "Sistem GoTKA memerlukan data pengerjaan 20 Soal Tes Diagnostik pertamamu untuk memetakan kekuatan dan kelemahan secara akurat.";
+                document.getElementById('recomBtn').innerHTML = `<i class="fa-solid fa-play"></i> Ambil Tes Diagnostik (20 Soal)`;
+                document.getElementById('recomBtn').onclick = function() { switchTab('diagnostic'); };
+
+                // Set level bars to 0
+                document.getElementById('lvlRendahVal').innerText = "0%";
+                document.getElementById('barRendah').style.width = "0%";
+                document.getElementById('lvlSedangVal').innerText = "0%";
+                document.getElementById('barSedang').style.width = "0%";
+                document.getElementById('lvlHotsVal').innerText = "0%";
+                document.getElementById('barHots').style.width = "0%";
+            } else {
+                // ACTIVE LEARNER STATE
+                let totalSoal = 0;
+                let totalAcc = 0;
+                studentState.history.forEach(h => {
+                    totalSoal += h.total;
+                    totalAcc += parseInt(h.accuracy);
+                });
+                const avgAcc = Math.round(totalAcc / totalTests);
+
+                let topics = Object.keys(studentState.skillMap);
+                let sortedTopics = topics.sort((a, b) => studentState.skillMap[b] - studentState.skillMap[a]);
+                let strongest = sortedTopics[0];
+                let weakest = sortedTopics[sortedTopics.length - 1];
+
+                document.getElementById('heroBadge').innerText = "Personalized Learning Active";
+                document.getElementById('heroDescription').innerHTML = `Sistem GoTKA telah menganalisis aktivitas latihanmu. Penguasaan materi keseluruhanmu saat ini mencapai <b class="text-yellow-300">${avgAcc}%</b>. Kelemahan utamamu ada pada materi <b>${weakest}</b>.`;
+                document.getElementById('heroActionButtons').innerHTML = `
+                    <button onclick="switchTab('weakness')" class="px-5 py-2.5 bg-white text-sky-700 hover:bg-sky-50 rounded-xl font-bold text-xs sm:text-sm shadow-md transition flex items-center gap-2">
+                        <i class="fa-solid fa-bullseye text-rose-500"></i> Perbaiki Kelemahan (${weakest})
+                    </button>
+                    <button onclick="switchTab('master')" class="px-5 py-2.5 bg-sky-500/30 hover:bg-sky-500/40 text-white border border-white/30 rounded-xl font-bold text-xs sm:text-sm backdrop-blur-md transition flex items-center gap-2">
+                        <i class="fa-solid fa-play text-yellow-300"></i> Modul Video (Pro)
+                    </button>
+                `;
+
+                document.getElementById('dashTotalDrills').innerText = totalSoal + " Soal";
+                document.getElementById('dashDrillSubtitle').innerText = "+" + totalTests + " sesi selesai";
+                document.getElementById('dashAccuracy').innerText = avgAcc + "%";
+                document.getElementById('dashStrongest').innerText = strongest + " (" + studentState.skillMap[strongest] + "%)";
+                document.getElementById('dashStrongestSub').innerText = "Penguasaan Terbaik";
+                document.getElementById('dashWeakest').innerText = "🔴 " + weakest + " (" + studentState.skillMap[weakest] + "%)";
+                document.getElementById('dashWeakestSub').innerText = "Perlu Penguatan Segera";
+
+                document.getElementById('recomBadge').innerText = "Rekomendasi Adaptive GoTKA";
+                document.getElementById('recomTitle').innerText = "Fokus Berikutnya: " + weakest;
+                document.getElementById('recomDesc').innerText = `Akurasi pada materi ${weakest} saat ini adalah ${studentState.skillMap[weakest]}%. Sistem menyarankan Latihan Remedial 10 Soal dan menonton video pembahasan.`;
+                document.getElementById('recomBtn').innerHTML = `<i class="fa-solid fa-play"></i> Mulai Remedial ${weakest} (10 Soal)`;
+                document.getElementById('recomBtn').onclick = function() { startSpecificQuiz(weakest, 10); };
+
+                // Update weakness tab header
+                document.getElementById('weaknessTopicTitle').innerText = weakest;
+                document.getElementById('weaknessTopicSub').innerText = `Sistem menyusun jalur remedial khusus untuk memperkuat pemahamanmu pada materi ${weakest}.`;
+
+                // Update level bars
+                document.getElementById('lvlRendahVal').innerText = Math.min(100, avgAcc + 15) + "%";
+                document.getElementById('barRendah').style.width = Math.min(100, avgAcc + 15) + "%";
+                document.getElementById('lvlSedangVal').innerText = avgAcc + "%";
+                document.getElementById('barSedang').style.width = avgAcc + "%";
+                document.getElementById('lvlHotsVal').innerText = Math.max(20, avgAcc - 20) + "%";
+                document.getElementById('barHots').style.width = Math.max(20, avgAcc - 20) + "%";
+            }
+
+            renderSkillMapBars();
+        }
+
+        // RENDER SKILL MAP BARS
+        function renderSkillMapBars() {
+            const container = document.getElementById('dashSkillBars');
+            const mapContainer = document.getElementById('skillMapBars');
+            if (!container) return;
+
+            let html = '';
+            for (let topic in studentState.skillMap) {
+                let val = studentState.skillMap[topic];
+                let colorClass = val >= 80 ? 'bg-emerald-500' : val >= 60 ? 'bg-sky-500' : val > 0 ? 'bg-rose-500' : 'bg-slate-300';
+                let textClass = val >= 80 ? 'text-emerald-600' : val >= 60 ? 'text-sky-600' : val > 0 ? 'text-rose-500' : 'text-slate-400';
+                let statusText = val >= 80 ? 'Sangat Baik' : val >= 60 ? 'Cukup' : val > 0 ? 'Perlu Perbaikan' : 'Belum Dites';
+
+                html += `
+                    <div>
+                        <div class="flex justify-between font-sans text-xs font-bold mb-1">
+                            <span>${topic}</span>
+                            <span class="${textClass}">${val}% (${statusText})</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                            <div class="${colorClass} h-full rounded-full transition-all duration-500" style="width: ${val}%;"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+            if (mapContainer) mapContainer.innerHTML = html;
+        }
+
+        // DYNAMIC QUESTION SET GENERATOR WITH EXACT COUNTS (20, 35, 50, 10)
+        function generateQuestionSet(count, filterTopic = null) {
+            let pool = [...MASTER_QUESTIONS];
+            if (filterTopic && filterTopic !== "ALL") {
+                let filtered = pool.filter(q => q.topic.toLowerCase() === filterTopic.toLowerCase());
+                if (filtered.length > 0) pool = filtered;
+            }
+
+            let result = [];
+            let poolIndex = 0;
+
+            for (let i = 0; i < count; i++) {
+                let base = pool[poolIndex % pool.length];
+                poolIndex++;
+
+                // Clone base question
+                let item = JSON.parse(JSON.stringify(base));
+                item.id = i + 1;
+
+                // Add procedural variation for high counts (e.g., 35, 50)
+                if (i >= pool.length) {
+                    let multiplier = Math.floor(i / pool.length) + 1;
+                    if (item.topic === "Aljabar") {
+                        let a = 3 + multiplier;
+                        let x = 4 + multiplier;
+                        let b = 5 + multiplier;
+                        let ans = a * x + b;
+                        item.question = `Jika ${a}x + ${b} = ${ans}, maka nilai dari x adalah...`;
+                        item.options = [`x = ${x}`, `x = ${x+2}`, `x = ${x-1}`, `x = ${x+1}`];
+                        item.correct = 0;
+                        item.formula = `${a}x + ${b} = ${ans} ➔ x = ${x}`;
+                        item.steps = [`Sederhanakan: ${a}x = ${ans - b}`, `Bagi kedua ruas: x = ${x}`];
+                    } else if (item.topic === "Geometri") {
+                        let a = 6 + multiplier;
+                        let b = 8 + multiplier;
+                        let c = Math.round(Math.sqrt(a*a + b*b));
+                        item.question = `Segitiga siku-siku memiliki alas ${a} cm dan tinggi ${b} cm. Berapakah panjang sisi miringnya?`;
+                        item.options = [`${c} cm`, `${c+2} cm`, `${c-1} cm`, `${c+4} cm`];
+                        item.correct = 0;
+                        item.formula = `c² = ${a}² + ${b}² ➔ c ≈ ${c}`;
+                        item.steps = [`Kuadratkan kedua sisi: ${a*a} + ${b*b} = ${a*a + b*b}`, `Hitung akar kuadrat ≈ ${c} cm`];
+                    }
+                }
+                result.push(item);
+            }
+            return result;
+        }
+
+        // QUIZ EXECUTION ENGINE
+        function startDiagnosticTest() {
+            activeQuizQuestions = generateQuestionSet(20); // EXACTLY 20 SOAL
+            activeQuizIndex = 0;
+            activeQuizCorrectCount = 0;
+            activeTopicScores = { Bilangan: 0, Aljabar: 0, Geometri: 0, Data: 0, Transformasi: 0 };
+            document.getElementById('quizSessionTitle').innerText = "TES DIAGNOSTIK (20 SOAL)";
+            openQuizModal();
+        }
+
+        function startPaketPlusTest() {
+            activeQuizQuestions = generateQuestionSet(35); // EXACTLY 35 SOAL
+            activeQuizIndex = 0;
+            activeQuizCorrectCount = 0;
+            activeTopicScores = {};
+            document.getElementById('quizSessionTitle').innerText = "TES PAKET PLUS (35 SOAL)";
+            openQuizModal();
+        }
+
+        function startPaketProTest() {
+            activeQuizQuestions = generateQuestionSet(50); // EXACTLY 50 SOAL
+            activeQuizIndex = 0;
+            activeQuizCorrectCount = 0;
+            activeTopicScores = {};
+            document.getElementById('quizSessionTitle').innerText = "TES PAKET PRO HOTS (50 SOAL)";
+            openQuizModal();
+        }
+
+        function startSpecificQuiz(topicName, count = 10) {
+            activeQuizQuestions = generateQuestionSet(count, topicName); // DEFAULT 10 SOAL REMEDIAL
+            activeQuizIndex = 0;
+            activeQuizCorrectCount = 0;
+            activeTopicScores = {};
+            document.getElementById('quizSessionTitle').innerText = `LATIHAN REMEDIAL ${topicName.toUpperCase()} (${count} SOAL)`;
+            openQuizModal();
+        }
+
+        function startQuizForWeakestTopic() {
+            let topics = Object.keys(studentState.skillMap);
+            let sortedTopics = topics.sort((a, b) => studentState.skillMap[a] - studentState.skillMap[b]);
+            let weakest = sortedTopics[0] || "Aljabar";
+            startSpecificQuiz(weakest, 10); // EXACTLY 10 SOAL REMEDIAL
+        }
+
+        function startQuizForActiveLesson() {
+            const topic = VIDEO_LESSONS[activeVideoLessonKey].topic;
+            startSpecificQuiz(topic, 10); // EXACTLY 10 SOAL REMEDIAL
+        }
+
+        function openQuizModal() {
+            document.getElementById('quizModal').classList.remove('hidden');
+            renderCurrentQuizQuestion();
+        }
+
+        function closeQuizModal() {
+            document.getElementById('quizModal').classList.add('hidden');
+        }
+
+        function renderCurrentQuizQuestion() {
+            const q = activeQuizQuestions[activeQuizIndex];
+            selectedOptionIndex = null;
+
+            document.getElementById('quizProgressText').innerText = `Soal ${activeQuizIndex + 1} dari ${activeQuizQuestions.length}`;
+            document.getElementById('quizBadgeTopic').innerText = q.topic;
+            document.getElementById('quizBadgeLevel').innerText = "Level " + q.level;
+            document.getElementById('quizQuestionText').innerText = q.question;
+
+            // Render options
+            let optionsHtml = '';
+            q.options.forEach((opt, idx) => {
+                optionsHtml += `
+                    <button onclick="selectOption(${idx})" id="opt-btn-${idx}" class="w-full text-left p-3.5 bg-slate-50 border border-slate-200 hover:bg-slate-100 rounded-xl font-semibold text-xs text-slate-800 transition flex items-center gap-3">
+                        <span class="w-6 h-6 rounded-lg bg-white border border-slate-300 flex items-center justify-center font-bold text-slate-500 text-[11px]">${String.fromCharCode(65 + idx)}</span>
+                        <span>${opt}</span>
+                    </button>
+                `;
+            });
+            document.getElementById('quizOptionsContainer').innerHTML = optionsHtml;
+
+            // Reset UI states
+            document.getElementById('quizFeedbackBox').classList.add('hidden');
+            document.getElementById('btnSubmitAnswer').classList.remove('hidden');
+            document.getElementById('btnNextQuestion').classList.add('hidden');
+            document.getElementById('quizStatusFooter').innerText = "Pilih salah satu jawaban di atas";
+        }
+
+        function selectOption(index) {
+            selectedOptionIndex = index;
+            document.querySelectorAll('#quizOptionsContainer button').forEach((btn, idx) => {
+                if (idx === index) {
+                    btn.classList.add('border-sky-500', 'bg-sky-50', 'ring-2', 'ring-sky-300');
+                } else {
+                    btn.classList.remove('border-sky-500', 'bg-sky-50', 'ring-2', 'ring-sky-300');
+                }
+            });
+            document.getElementById('quizStatusFooter').innerText = "Jawaban dipilih. Klik Submit Jawaban.";
+        }
+
+        function submitAnswer() {
+            if (selectedOptionIndex === null) {
+                alert("Silakan pilih salah satu jawaban terlebih dahulu!");
+                return;
+            }
+
+            const q = activeQuizQuestions[activeQuizIndex];
+            const isCorrect = (selectedOptionIndex === q.correct);
+
+            if (isCorrect) {
+                activeQuizCorrectCount++;
+                if (!activeTopicScores[q.topic]) activeTopicScores[q.topic] = 0;
+                activeTopicScores[q.topic] += 100;
+            }
+
+            // Disable choices
+            document.querySelectorAll('#quizOptionsContainer button').forEach(btn => btn.disabled = true);
+
+            // Highlight choices
+            const correctBtn = document.getElementById('opt-btn-' + q.correct);
+            if (correctBtn) {
+                correctBtn.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
+            }
+            if (!isCorrect) {
+                const selectedBtn = document.getElementById('opt-btn-' + selectedOptionIndex);
+                if (selectedBtn) {
+                    selectedBtn.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+                }
+            }
+
+            // Show Feedback & Solution
+            const feedbackBox = document.getElementById('quizFeedbackBox');
+            const feedbackHeader = document.getElementById('feedbackHeader');
+            const explanationContent = document.getElementById('explanationContent');
+
+            feedbackBox.classList.remove('hidden');
+
+            if (isCorrect) {
+                feedbackBox.className = "p-4 rounded-2xl space-y-3 text-xs bg-emerald-50 border border-emerald-200";
+                feedbackHeader.innerHTML = `<span class="text-emerald-600"><i class="fa-solid fa-circle-check text-lg"></i> Jawaban Kamu Benar!</span>`;
+            } else {
+                feedbackBox.className = "p-4 rounded-2xl space-y-3 text-xs bg-rose-50 border border-rose-200";
+                feedbackHeader.innerHTML = `<span class="text-rose-600"><i class="fa-solid fa-circle-xmark text-lg"></i> Jawaban Belum Tepat</span>`;
+            }
+
+            let stepsHtml = q.steps.map((s, i) => `<li>${i + 1}. ${s}</li>`).join('');
+            explanationContent.innerHTML = `
+                <p class="font-bold text-slate-800">📚 Konsep & Rumus Ringkas:</p>
+                <div class="p-2 bg-slate-100 rounded border border-slate-200 text-sky-800 font-bold">${q.formula}</div>
+                <p class="font-bold text-slate-800 pt-1">Langkah Penyelesaian:</p>
+                <ul class="space-y-1 list-none pl-1 text-slate-600">${stepsHtml}</ul>
+            `;
+
+            document.getElementById('btnSubmitAnswer').classList.add('hidden');
+            document.getElementById('btnNextQuestion').classList.remove('hidden');
+            document.getElementById('quizStatusFooter').innerText = "Pelajari pembahasan lalu klik Lanjut.";
+        }
+
+        function nextQuestionInQuiz() {
+            activeQuizIndex++;
+            if (activeQuizIndex < activeQuizQuestions.length) {
+                renderCurrentQuizQuestion();
+            } else {
+                finishQuizSession();
+            }
+        }
+
+        function finishQuizSession() {
+            closeQuizModal();
+            const total = activeQuizQuestions.length;
+            const correct = activeQuizCorrectCount;
+            const accuracy = Math.round((correct / total) * 100);
+
+            // Record session
+            recordTestCompletion(
+                document.getElementById('quizSessionTitle').innerText,
+                correct,
+                total,
+                activeTopicScores
+            );
+
+            alert(`🎉 Sesi Latihan Selesai!\n\nSkor Kamu: ${accuracy}%\nJawaban Benar: ${correct} dari ${total} soal.\n\nSistem GoTKA telah memperbarui Skill Map dan rekomendasi belajarmu.`);
+            switchTab('beranda');
+        }
+
+        // SAVE DRILL/TEST RESULTS AND RECALCULATE SKILL MAP
+        function recordTestCompletion(sessionName, correct, total, topicScores) {
+            const acc = Math.round((correct / total) * 100);
+            const newRecord = {
+                date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                session: sessionName,
+                score: Math.round((correct / total) * 100),
+                correct: correct,
+                total: total,
+                accuracy: acc + "%"
+            };
+
+            studentState.history.unshift(newRecord);
+
+            // Update Skill Map
+            for (let t in studentState.skillMap) {
+                if (studentState.skillMap[t] === 0) {
+                    studentState.skillMap[t] = Math.max(40, acc);
+                } else {
+                    studentState.skillMap[t] = Math.round((studentState.skillMap[t] + acc) / 2);
+                }
+            }
+
+            localStorage.setItem('gotka_state', JSON.stringify(studentState));
+            updateUIFromState();
+            renderHistoryTable();
+        }
+
+        // RENDER BANK SOAL CARDS
+        function renderBankSoalCards() {
+            const container = document.getElementById('bankSoalGrid');
+            if (!container) return;
+
+            const topicFilter = document.getElementById('filterTopic').value;
+            const levelFilter = document.getElementById('filterLevel').value;
+
+            let filtered = MASTER_QUESTIONS.filter(q => {
+                let matchTopic = (topicFilter === "ALL" || q.topic.toLowerCase() === topicFilter.toLowerCase());
+                let matchLevel = (levelFilter === "ALL" || q.level.toLowerCase() === levelFilter.toLowerCase());
+                return matchTopic && matchLevel;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<p class="col-span-3 text-xs text-slate-400 py-8 text-center">Tidak ada soal yang cocok dengan filter ini.</p>`;
+                return;
+            }
+
+            let html = '';
+            filtered.forEach(q => {
+                html += `
+                    <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl space-y-3 hover:border-sky-300 transition flex flex-col justify-between">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="bg-sky-100 text-sky-700 font-bold text-[10px] px-2.5 py-0.5 rounded-md uppercase">${q.topic}</span>
+                                <span class="text-[10px] font-bold text-slate-400">Level ${q.level}</span>
+                            </div>
+                            <h4 class="font-bold text-slate-800 text-xs">${q.title}</h4>
+                            <p class="text-xs text-slate-600 line-clamp-2">${q.question}</p>
+                        </div>
+                        <button onclick="startSpecificQuiz('${q.topic}', 10)" class="w-full py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-xl font-bold text-xs transition flex items-center justify-center gap-1.5">
+                            <i class="fa-solid fa-pen-to-square"></i> Kerjakan Latihan (10 Soal)
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // RENDER HISTORY TABLE
+        function renderHistoryTable() {
+            const tbody = document.getElementById('historyTableBody');
+            if (!tbody) return;
+
+            if (!studentState.history || studentState.history.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">Belum ada riwayat pengerjaan tes. Silakan kerjakan Tes Diagnostik.</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            studentState.history.forEach(h => {
+                html += `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="p-3 font-mono text-[11px] text-slate-500">${h.date}</td>
+                        <td class="p-3 font-bold text-slate-800">${h.session}</td>
+                        <td class="p-3 font-extrabold text-sky-600">${h.score}</td>
+                        <td class="p-3 text-slate-600">${h.correct} / ${h.total}</td>
+                        <td class="p-3 font-bold text-emerald-600">${h.accuracy}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        // VIDEO LESSON SWITCHER (PRO TIER)
+        function selectVideoLesson(key) {
+            const lesson = VIDEO_LESSONS[key];
+            if (!lesson) return;
+
+            activeVideoLessonKey = key;
+
+            document.querySelectorAll('.video-tab-btn').forEach(btn => {
+                btn.className = "video-tab-btn px-4 py-2.5 rounded-2xl font-bold text-xs bg-white text-slate-700 border border-slate-200 hover:bg-slate-100 transition flex items-center gap-2";
+            });
+            const activeBtn = document.getElementById('btn-vid-' + key);
+            if (activeBtn) {
+                activeBtn.className = "video-tab-btn px-4 py-2.5 rounded-2xl font-bold text-xs bg-sky-600 text-white shadow transition flex items-center gap-2";
+            }
+
+            document.getElementById('videoTopicTitle').innerText = lesson.title;
+            document.getElementById('videoYoutubeIdText').innerText = "YouTube ID: " + lesson.youtubeId;
+            document.getElementById('mainVideoIframe').src = "https://www.youtube.com/embed/" + lesson.youtubeId + "?enablejsapi=1";
+            document.getElementById('videoDurationText').innerText = lesson.duration;
+
+            document.getElementById('summaryFormulaTitle').innerHTML = `Bentuk/Rumus: <span class="bg-white px-2 py-0.5 rounded border border-sky-300">${lesson.formulaTitle}</span>`;
+            document.getElementById('summaryFormulaText').innerText = lesson.formulaText;
+
+            let stepsHtml = lesson.steps.map(s => `<li>${s}</li>`).join('');
+            document.getElementById('summaryStepsList').innerHTML = stepsHtml;
+        }
+
+        function confirmVideoWatched() {
+            alert("✅ Terima kasih! Penontonan video pembelajaran dikonfirmasi. Silakan klik 'Latihan Topik Ini' untuk menguji pemahamanmu.");
+        }
+
+        // KMS ACCORDION & SEARCH
+        function switchKmsSubTab(subTab) {
+            document.getElementById('kmsSubFaq').classList.add('hidden');
+            document.getElementById('kmsSubSsd').classList.add('hidden');
+            document.getElementById('kmsSubKamus').classList.add('hidden');
+
+            document.getElementById('kmsTabFaq').className = "pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-600";
+            document.getElementById('kmsTabSsd').className = "pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-600";
+            document.getElementById('kmsTabKamus').className = "pb-3 border-b-2 border-transparent text-slate-400 hover:text-slate-600";
+
+            if (subTab === 'faq') {
+                document.getElementById('kmsSubFaq').classList.remove('hidden');
+                document.getElementById('kmsTabFaq').className = "pb-3 border-b-2 border-purple-600 text-purple-600";
+            } else if (subTab === 'ssd') {
+                document.getElementById('kmsSubSsd').classList.remove('hidden');
+                document.getElementById('kmsTabSsd').className = "pb-3 border-b-2 border-purple-600 text-purple-600";
+            } else if (subTab === 'kamus') {
+                document.getElementById('kmsSubKamus').classList.remove('hidden');
+                document.getElementById('kmsTabKamus').className = "pb-3 border-b-2 border-purple-600 text-purple-600";
+            }
+        }
+
+        function toggleAccordion(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('hidden');
+        }
+
+        function filterDictionary() {
+            const query = document.getElementById('dictSearchInput').value.toLowerCase();
+            document.querySelectorAll('#dictGrid .dict-item').forEach(item => {
+                const text = item.innerText.toLowerCase();
+                item.style.display = text.includes(query) ? "block" : "none";
+            });
+        }
+
+        // SAVE PROFILE
+        function saveStudentProfile() {
+            studentState.name = document.getElementById('inputStudentName').value.trim();
+            studentState.class = document.getElementById('inputStudentClass').value.trim();
+            studentState.goal = document.getElementById('inputStudentGoal').value.trim();
+
+            localStorage.setItem('gotka_state', JSON.stringify(studentState));
+            updateUIFromState();
+            alert("✅ Profil siswa berhasil diperbarui!");
+        }
+    </script>
+</body>
+</html>
